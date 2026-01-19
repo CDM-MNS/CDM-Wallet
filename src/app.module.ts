@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import {WalletEntity} from "./Objects/Entities/wallet.entity";
+import {UserWalletEntity} from "./Objects/Entities/userWallet.entity";
+import {UserWalletController} from "./Controllers/userWallet.controller";
+import {UserWalletService} from "./Services/userWallet.service";
+
 
 
 @Module({
@@ -20,11 +21,11 @@ import {WalletEntity} from "./Objects/Entities/wallet.entity";
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [WalletEntity],
+      entities: [UserWalletEntity],
       synchronize: Boolean(process.env.POSTGRES_SYNCHRONISE)
     }),
-    TypeOrmModule.forFeature([WalletEntity])
-  ],  controllers: [AppController],
-  providers: [AppService],
+    TypeOrmModule.forFeature([UserWalletEntity])
+  ],  controllers: [UserWalletController],
+  providers: [UserWalletService],
 })
 export class AppModule {}

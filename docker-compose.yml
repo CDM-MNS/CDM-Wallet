@@ -20,7 +20,7 @@ services:
     env_file:
       - .env.docker
     ports:
-      - "5432:5432"
+      - "5006:5432"
     volumes:
       - cdm-wallet-db:/var/lib/postgresql/data
     networks:
