@@ -1,7 +1,7 @@
 services:
-  rabbitmq:
+  cdm-rabbitmq:
     image: rabbitmq:3-management
-    container_name: RABBIT_MQ
+    container_name: CDM_RABBIT_MQ
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -15,14 +15,14 @@ services:
       timeout: 5s
       retries: 5
 
-  wallet-db:
+  cdm-wallet-db:
     image: postgres:15
     env_file:
       - .env.docker
     ports:
       - "5432:5432"
     volumes:
-      - wallet-db:/var/lib/postgresql/data
+      - cdm-wallet-db:/var/lib/postgresql/data
     networks:
       - cdm-network
     healthcheck:
@@ -31,22 +31,22 @@ services:
       timeout: 5s
       retries: 5
 
-  wallet-service:
+  cdm-wallet-service:
     build: .
     env_file:
       - .env.docker
     ports:
-      - "4002:4002"
+      - "4006:4006"
     depends_on:
-      wallet-db:
+      cdm-wallet-db:
         condition: service_healthy
-      rabbitmq:
+      cdm-rabbitmq:
         condition: service_healthy
     networks:
       - cdm-network
 
 volumes:
-  wallet-db:
+  cdm-wallet-db:
 
 networks:
   cdm-network:
