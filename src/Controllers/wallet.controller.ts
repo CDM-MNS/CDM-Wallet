@@ -4,6 +4,7 @@ import {WalletDto} from "../Objects/DTOs/wallet.dto";
 import {DeleteResult, UpdateResult} from "typeorm";
 import {EventPattern, Payload} from "@nestjs/microservices";
 import {UserDto} from "@cdm/models";
+import {RpcValidationPipe} from "../Utils/rpc-validation";
 
 @Controller('wallet')
 export class WalletController {
@@ -37,7 +38,7 @@ export class WalletController {
     }
 
     @EventPattern('user.create')
-    async handleEventUserCreated(@Payload() data: UserDto) {
+    async handleEventUserCreated(@Payload(new RpcValidationPipe()) data: UserDto) {
         await this.walletService.createNewWalletForUser(data);
     }
 
