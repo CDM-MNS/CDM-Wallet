@@ -9,7 +9,7 @@ async function bootstrap() {
     transport: Transport.RMQ,
     options: {
       urls: [process.env.RABBIT_MQ ?? ''],
-      queue: 'WALLET_SERVICE',
+      queue: 'WALLET_QUEUE',
       queueOptions: {
         durable: false,
       },
