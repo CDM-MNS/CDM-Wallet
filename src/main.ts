@@ -9,18 +9,7 @@ async function bootstrap() {
     transport: Transport.RMQ,
     options: {
       urls: [process.env.RABBIT_MQ ?? ''],
-      queue: 'WALLET_QUEUE_IN',
-      queueOptions: {
-        durable: false,
-      },
-    },
-  });
-
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.RMQ,
-    options: {
-      urls: [process.env.RABBIT_MQ ?? ''],
-      queue: 'WALLET_QUEUE_OUT',
+      queue: 'WALLET_SERVICE',
       queueOptions: {
         durable: false,
       },
