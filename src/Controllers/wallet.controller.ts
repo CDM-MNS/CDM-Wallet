@@ -36,7 +36,7 @@ export class WalletController {
         return await this.walletService.delete(id)
     }
 
-    @EventPattern('user_created')
+    @EventPattern('user.create')
     async handleEventUserCreated(@Payload() data: UserDto) {
         await this.walletService.createNewWalletForUser(data);
     }
