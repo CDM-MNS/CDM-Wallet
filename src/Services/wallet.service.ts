@@ -44,7 +44,7 @@ export class WalletService {
         if(userDto.id === undefined)
             throw new NotFoundException("User with id is missing");
 
-        const wallet = new WalletDto(0, userDto.id, 0, 50)
+        const wallet = new WalletDto(userDto.id, 0, 50)
         return await this.walletRepository.save(wallet);
     }
 }
