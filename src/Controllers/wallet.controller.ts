@@ -37,7 +37,7 @@ export class WalletController {
         return await this.walletService.delete(id)
     }
 
-    @EventPattern('user.create')
+    @EventPattern('wallet.create')
     async handleEventUserCreated(@Payload(new RpcValidationPipe()) data: UserDto) {
         await this.walletService.createNewWalletForUser(data);
     }
