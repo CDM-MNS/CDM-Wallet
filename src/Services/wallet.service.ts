@@ -28,6 +28,16 @@ export class WalletService {
         return fetchedWallet
     }
 
+    async getByOwnerId(ownerId: number) : Promise<WalletDto> {
+        const fetchedWallet = await this.walletRepository.findOne({
+            where : { ownerId : ownerId }
+        })
+
+        if(fetchedWallet === null){
+            throw new NotFoundException("Wallet does not exist");
+        }
+        return fetchedWallet
+    }
     async create(userWalletDto: WalletDto) : Promise<WalletDto> {
         return await this.walletRepository.save(userWalletDto);
     }
@@ -40,11 +50,11 @@ export class WalletService {
         return await this.walletRepository.delete(id);
     }
 
-    async createNewWalletForUser(userDto: UserDto) : Promise<WalletDto> {
-        if(userDto.id === undefined)
+    async createNewWalletForUser(userId: number) : Promise<WalletDto> {
+        if(userId === undefined)
             throw new NotFoundException("User with id is missing");
 
-        const wallet = new WalletDto(userDto.id, 0, 50)
+        const wallet = new WalletDto(userId, 0, 50)
         return await this.walletRepository.save(wallet);
     }
 }

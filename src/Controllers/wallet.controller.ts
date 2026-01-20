@@ -22,24 +22,32 @@ export class WalletController {
         return await this.walletService.getById(id);
     }
 
+    @EventPattern('wallet.getByOwnerId')
+    @Get('/owner/:ownerId')
+    async getByOwnerId(@Param('ownerId') ownerId: number) : Promise<WalletDto> {
+        return await this.walletService.getByOwnerId(ownerId)
+    }
+
     @Post()
     async create(@Body() userWalletDto: WalletDto) : Promise<WalletDto> {
         return await this.walletService.create(userWalletDto);
     }
 
+    @EventPattern('wallet.update')
     @Put(":id")
     async update(@Param('id') id:number, @Body() userWalletDto: WalletDto) : Promise<UpdateResult> {
         return await this.walletService.update(id, userWalletDto);
     }
 
+    @EventPattern('wallet.delete')
     @Delete(":id")
     async delete(@Param('id') id:number) : Promise<DeleteResult> {
         return await this.walletService.delete(id)
     }
 
     @EventPattern('wallet.create')
-    async handleEventUserCreated(@Payload(new RpcValidationPipe()) data: UserDto) {
-        await this.walletService.createNewWalletForUser(data);
+    async handleEventUserCreated(@Payload(new RpcValidationPipe()) userId: number) {
+        await this.walletService.createNewWalletForUser(userId);
     }
 
 
