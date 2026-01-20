@@ -1,5 +1,5 @@
 
-export class UserWalletDto {
+export class WalletDto {
     id: number;
     ownerId: number;
     coinsBalance: number;

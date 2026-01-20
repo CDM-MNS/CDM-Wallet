@@ -1,22 +1,22 @@
 import {InjectRepository} from "@nestjs/typeorm";
-import {UserWalletEntity} from "../Objects/Entities/userWallet.entity";
-import {UserWalletDto} from "../Objects/DTOs/userWallet.dto";
+import {WalletEntity} from "../Objects/Entities/wallet.entity";
+import {WalletDto} from "../Objects/DTOs/wallet.dto";
 import {DeleteResult, Repository, UpdateResult} from "typeorm";
 import {Injectable, NotFoundException} from "@nestjs/common";
 
 @Injectable()
-export class UserWalletService {
+export class WalletService {
 
     constructor(
-        @InjectRepository(UserWalletEntity)
-        private userWalletRepository: Repository<UserWalletEntity>
+        @InjectRepository(WalletEntity)
+        private userWalletRepository: Repository<WalletEntity>
     ) {}
 
-    async getAll() : Promise<UserWalletDto[]> {
+    async getAll() : Promise<WalletDto[]> {
         return await this.userWalletRepository.find();
     }
 
-    async getById(id: number) : Promise<UserWalletDto> {
+    async getById(id: number) : Promise<WalletDto> {
         const fetchedWallet = await this.userWalletRepository.findOne({
             where : { id : id }
         })
@@ -27,11 +27,11 @@ export class UserWalletService {
         return fetchedWallet
     }
 
-    async create(userWalletDto: UserWalletDto) : Promise<UserWalletDto> {
+    async create(userWalletDto: WalletDto) : Promise<WalletDto> {
         return await this.userWalletRepository.save(userWalletDto);
     }
 
-    async update(id: number, userWalletDto: UserWalletDto) : Promise<UpdateResult> {
+    async update(id: number, userWalletDto: WalletDto) : Promise<UpdateResult> {
         return await this.userWalletRepository.update(id, userWalletDto)
     }
 
