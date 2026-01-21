@@ -5,6 +5,7 @@ import {DeleteResult, Repository, UpdateResult} from "typeorm";
 import {ConflictException, Inject, Injectable, NotFoundException} from "@nestjs/common";
 import {firstValueFrom} from "rxjs";
 import {ClientProxy} from "@nestjs/microservices";
+import {WalletEventType} from "cdm-models";
 
 @Injectable()
 export class WalletService {
@@ -70,7 +71,7 @@ export class WalletService {
 
     async addMoneyToWallet(walletId:number, moneyToAdd:number) : Promise<UpdateResult> {
         const isOperationASuccess = await firstValueFrom(
-            this.walletClient.send({cmd: 'wallet.addMoneyToWallet'}, {id: walletId, amountToAdd: moneyToAdd}
+            this.walletClient.send({cmd: WalletEventType.ADD_MONEY}, {id: walletId, amountToAdd: moneyToAdd}
             )
         );
 
