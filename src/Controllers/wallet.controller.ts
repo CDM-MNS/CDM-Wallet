@@ -5,6 +5,7 @@ import {DeleteResult, UpdateResult} from "typeorm";
 import {EventPattern, Payload} from "@nestjs/microservices";
 import {UserDto} from "@cdm/models";
 import {RpcValidationPipe} from "../Utils/rpc-validation";
+import {WalletAmount} from "../Objects/DTOs/walletAmount.dto";
 
 @Controller('wallet')
 export class WalletController {
@@ -33,22 +34,28 @@ export class WalletController {
         return await this.walletService.create(userWalletDto);
     }
 
-    @EventPattern('wallet.update')
     @Put(":id")
     async update(@Param('id') id:number, @Body() userWalletDto: WalletDto) : Promise<UpdateResult> {
         return await this.walletService.update(id, userWalletDto);
     }
 
-    @EventPattern('wallet.delete')
     @Delete(":id")
     async delete(@Param('id') id:number) : Promise<DeleteResult> {
         return await this.walletService.delete(id)
     }
 
-    @EventPattern('wallet.create')
+    @EventPattern('user.created')
     async handleEventUserCreated(@Payload(new RpcValidationPipe()) userId: number) {
         await this.walletService.createNewWalletForUser(userId);
     }
 
+    @EventPattern('user.deleted')
+    async handleEventUserDeleted(@Payload(new RpcValidationPipe()) userId: number) {
+        await this.walletService.deleteWalletByUserId(userId);
+    }
 
+    @Put('/addMoney/:walletId')
+    async addMoneyToWallet(@Param('walletId') walletId : number, @Body() walletAmount: WalletAmount) : Promise<UpdateResult> {
+        return await this.walletService.addMoneyToWallet(walletId, walletAmount.moneyToAdd)
+    }
 }
